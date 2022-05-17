@@ -4,7 +4,6 @@ private:
 public:
     Solution() {
         // 建立table
-        Roman_table['0'] = 0;
         Roman_table['I'] = 1;
         Roman_table['V'] = 5;
         Roman_table['X'] = 10;
@@ -20,8 +19,10 @@ public:
         // result 紀錄最終結果, count 暫存計數, last_char 紀錄上個字母
         int result = 0;
         int count = 0;
-        char last_char = '0';
-        for(int i = 0; i < s.length(); i++) {
+        // 先處理第一個字母
+        count += Roman_table[s.at(0)];
+        char last_char = s.at(0);
+        for(int i = 1; i < s.length(); i++) {
             // 前 > 後 => 將前者累計數值加入結果, 並將後者加入計數
             if(Roman_table[last_char] > Roman_table[s.at(i)]) {
                 result += count;
