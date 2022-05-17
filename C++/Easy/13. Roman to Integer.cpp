@@ -16,31 +16,20 @@ public:
         Roman_table.clear();
     }
     int romanToInt(string s) {
-        // result 紀錄最終結果, count 暫存計數, last_char 紀錄上個字母
+        // result 紀錄最終結果
         int result = 0;
-        int count = 0;
-        // 先處理第一個字母
-        count += Roman_table[s.at(0)];
-        char last_char = s.at(0);
-        for(int i = 1; i < s.length(); i++) {
-            // 前 > 後 => 將前者累計數值加入結果, 並將後者加入計數
-            if(Roman_table[last_char] > Roman_table[s.at(i)]) {
-                result += count;
-                count = Roman_table[s.at(i)];
+        for(int i = 0; i < s.length() - 1; i++) {
+            // 前 >= 後 => 將前者數值加入結果
+            if(Roman_table[s[i]] >= Roman_table[s[i + 1]]) {
+                result += Roman_table[s[i]];
             }
-            // 前 = 後 => 將後者加入計數
-            else if(Roman_table[last_char] == Roman_table[s.at(i)]) {
-                count += Roman_table[s.at(i)];
-            }
-            // 前 < 後 => 將後者扣除計數後加入結果
+            // 前 < 後 => 將結果扣除前者數值
             else {
-                result += Roman_table[s.at(i)] - count;
-                count = 0;
+                result -= Roman_table[s[i]];
             }
-            last_char = s.at(i);
         }
         // 最後不用比對直接加入結果
-        result += count;
+        result += Roman_table[s.back()];
         // 回傳結果
         return result;
     }
