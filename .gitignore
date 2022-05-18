@@ -1,0 +1,5 @@
+# 檔案名稱 .gitignore
+
+## for C++
+*.exe
+*.o
