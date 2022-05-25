@@ -2,27 +2,24 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int ans = 0;
-        bool arr[256] = {};
-        queue<char> q;
-        for (int i = 0; i < s.length(); ++i) {
-            if (arr[s[i]]) {
-                if (q.size() > ans) {
-                    ans = q.size();
+        int head = 0;
+        for (int i = 1; i < s.length(); ++i) {
+            // find the position of identical character from head
+            int search = s.find_first_of(s[i], head);
+            // if identical character find before now position
+            if (search < i) {
+                // record longest length of substr
+                if (i - head > ans) {
+                    ans = i - head;
                 }
-                while (q.front() != s[i]) {
-                    arr[q.front()] = false;
-                    q.pop();
-                }
-                q.pop();
-                q.push(s[i]);
-            }
-            else {
-                arr[s[i]] = true;
-                q.push(s[i]);
+                // update head
+                head = search + 1;
             }
         }
-        if (q.size() > ans) {
-            return q.size();
+        // return if the length from head is longer than answer
+        int lastlen = s.length() - head;
+        if (lastlen > ans) {
+            return lastlen;
         }
         return ans;
     }
